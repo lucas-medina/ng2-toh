@@ -1,18 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Champion } from '../components/champion/champion';
 
-const HEROROOST: Champion[] = [
-	{ id: 10, name: 'Annie' },
-	{ id: 11, name: 'Blitzcrank' },
-	{ id: 12, name: 'Twisted Fate' },
-	{ id: 13, name: 'Tryndamere' },
-	{ id: 14, name: 'Taric' },
-	{ id: 15, name: 'Zed' },
-	{ id: 16, name: 'Jhin' },
-	{ id: 17, name: 'Fiora' }
-];
+import { ChampionService } from './champion.service';
 
 @Component({
+	providers: [ChampionService],
   	selector: 'my-app',
   	styles: [`
 	  	.wrapper {
@@ -82,18 +74,27 @@ const HEROROOST: Champion[] = [
   		`,
 })
 
-export class AppComponent  {
+export class AppComponent implements OnInit {
 	
 	title = "Tour of Champions";
-	champions = HEROROOST;
-
-	champion : Champion = {
-		id: 1,
-		name: 'Aatrox'
-	}
-
+	champions: Champion[];
 	selectedChampion: Champion;
 
+	constructor(
+		private championService: ChampionService
+	){}
+
+	ngOnInit(){
+		this.getChampions();
+	}
+
+	getChampions(){
+		this.championService.getChampions().then(
+			(champions) => {
+				this.champions = champions
+			}
+		);
+	}
 	onSelect(champion: Champion){
 		this.selectedChampion = champion;
 		console.log(this.selectedChampion);
