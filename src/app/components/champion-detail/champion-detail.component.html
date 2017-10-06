@@ -1,0 +1,11 @@
+So...
+<div *ngIf="champion">
+	<h2>See more about {{champion.name}}</h2>
+	<div>
+	 	<label>Id: </label>{{champion.id}}
+	</div>
+	<div>
+		<input type="text" [(ngModel)]="champion.name" placeholder="Which is the champion name?">
+	</div>
+	<button (click)="goBack()">Back</button>
+</div>
